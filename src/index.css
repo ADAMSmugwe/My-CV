@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Light mode - Default */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F5F5F7;
+  --text-primary: #000000;
+  --text-secondary: #6B7280;
+  --text-tertiary: #9CA3AF;
+  --border-color: #E5E7EB;
+  --card-bg: #F5F5F7;
+  --apple-blue: #0071E3;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --contrast-multiplier: 1;
+}
+
+/* Dark mode - Standard */
+.dark {
+  --bg-primary: #000000;
+  --bg-secondary: #1C1C1E;
+  --text-primary: #FFFFFF;
+  --text-secondary: #ABABAB;
+  --text-tertiary: #6B6B6B;
+  --border-color: #2C2C2E;
+  --card-bg: #1C1C1E;
+  --apple-blue: #0A84FF;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --contrast-multiplier: 1;
+}
+
+/* Dark mode - High contrast (bright environment) */
+.dark.high-contrast {
+  --bg-primary: #000000;
+  --bg-secondary: #0A0A0A;
+  --text-primary: #FFFFFF;
+  --text-secondary: #D1D1D1;
+  --text-tertiary: #8E8E93;
+  --border-color: #3A3A3C;
+  --card-bg: #0A0A0A;
+  --apple-blue: #0A84FF;
+  --shadow-color: rgba(0, 0, 0, 0.7);
+  --font-weight-normal: 500;
+  --font-weight-medium: 600;
+  --font-weight-semibold: 700;
+  --font-weight-bold: 800;
+  --contrast-multiplier: 1.15;
+}
+
+/* Dark mode - Low contrast (dim environment) */
+.dark.low-contrast {
+  --bg-primary: #0D0D0D;
+  --bg-secondary: #1A1A1A;
+  --text-primary: #E5E5E5;
+  --text-secondary: #9B9B9B;
+  --text-tertiary: #6B6B6B;
+  --border-color: #252525;
+  --card-bg: #1A1A1A;
+  --apple-blue: #0A84FF;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --font-weight-normal: 300;
+  --font-weight-medium: 400;
+  --font-weight-semibold: 500;
+  --font-weight-bold: 600;
+  --contrast-multiplier: 0.9;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.5s cubic-bezier(0.22, 1, 0.36, 1), color 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+}
+
+html {
+  overflow-x: hidden; /* Prevent horizontal scroll on root element */
+  scroll-behavior: smooth;
+}
+
+/* Smooth transitions for all color-changing elements */
+* {
+  transition-property: background-color, color, border-color, box-shadow;
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}

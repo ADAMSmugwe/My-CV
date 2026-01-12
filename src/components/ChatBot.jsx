@@ -8,7 +8,7 @@ const appleEase = [0.22, 1, 0.36, 1];
 // Initialize Gemini AI
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY || '');
 
-const ChatBot = ({ profile, experiences, projects, education }) => {
+const ChatBot = ({ profile, experiences, projects, education, certificates }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -656,6 +656,16 @@ ${education.map(e => `
   ${e.location ? `Location: ${e.location}` : ''}
   ${e.description ? `Description: ${e.description}` : ''}
 `).join('\n')}
+
+Certifications (${certificates?.length || 0} certificates):
+${certificates?.length > 0 ? certificates.map(c => `
+- ${c.title} from ${c.issuer}
+  Issued: ${c.issueDate || 'N/A'}
+  ${c.expiryDate ? `Expires: ${c.expiryDate}` : 'No expiration'}
+  ${c.credentialId ? `Credential ID: ${c.credentialId}` : ''}
+  ${c.credentialUrl ? `Verify at: ${c.credentialUrl}` : ''}
+  ${c.skills?.length > 0 ? `Skills: ${c.skills.join(', ')}` : ''}
+`).join('\n') : '- No certifications listed yet'}
 
 IMPORTANT GUIDELINES:
 - Be warm, friendly, and genuinely conversational - like chatting with a smart colleague

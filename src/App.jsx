@@ -29,6 +29,7 @@ function App() {
   const [experiences, setExperiences] = useState([]);
   const [projects, setProjects] = useState([]);
   const [education, setEducation] = useState([]);
+  const [certificates, setCertificates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
   const [contrastLevel, setContrastLevel] = useState('normal'); // 'low', 'normal', 'high'
@@ -164,6 +165,19 @@ function App() {
           location
         }`);
         setEducation(educationData);
+
+        // Fetch certificates
+        const certificatesData = await client.fetch(`*[_type == "certificate"] | order(order asc){
+          _id,
+          title,
+          issuer,
+          issueDate,
+          expiryDate,
+          credentialId,
+          credentialUrl,
+          skills
+        }`);
+        setCertificates(certificatesData);
 
         // Fetch GitHub activity
         if (profileData?.github) {
@@ -497,6 +511,125 @@ function App() {
         </motion.div>
       </section>
 
+      {/* Certificates Section */}
+      {certificates.length > 0 && (
+        <section className="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 overflow-hidden">
+          {/* Parallax background */}
+          <motion.div 
+            className="absolute inset-0 -z-10 opacity-5"
+            initial={{ scale: 0.9 }}
+            whileInView={{ scale: 1 }}
+            viewport={{ once: false }}
+            transition={{ duration: 1.5, ease: appleEase }}
+          >
+            <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-yellow-500 rounded-full blur-3xl" />
+          </motion.div>
+
+          <motion.h3
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: appleEase }}
+            className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter mb-8 sm:mb-12"
+            style={{ 
+              color: 'var(--text-primary)',
+              fontWeight: 'var(--font-weight-bold)'
+            }}
+          >
+            Certifications
+          </motion.h3>
+
+          <motion.div
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ staggerChildren: 0.15 }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
+            {certificates.map((cert, index) => (
+              <motion.div
+                key={cert._id}
+                variants={{
+                  initial: { opacity: 0, y: 40, scale: 0.95 },
+                  animate: { 
+                    opacity: 1, 
+                    y: 0, 
+                    scale: 1,
+                    transition: { 
+                      duration: 0.8, 
+                      ease: appleEase,
+                      delay: index * 0.1
+                    }
+                  }
+                }}
+                whileHover={{ scale: 1.02, transition: { duration: 0.3 } }}
+                className="p-6 sm:p-8 rounded-[2rem] sm:rounded-[2.5rem] hover:shadow-xl transition-shadow duration-500"
+                style={{ backgroundColor: 'var(--card-bg)' }}
+              >
+                <div className="flex flex-col">
+                  <h4 className="text-xl sm:text-2xl font-semibold tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>
+                    {cert.title}
+                  </h4>
+                  <p className="text-lg sm:text-xl mb-3" style={{ color: 'var(--text-secondary)', fontWeight: 'var(--font-weight-medium)' }}>
+                    {cert.issuer}
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-4 text-sm" style={{ color: 'var(--text-tertiary)' }}>
+                    {cert.issueDate && (
+                      <span className="flex items-center gap-1">
+                        <Calendar className="w-4 h-4" />
+                        {cert.issueDate}
+                      </span>
+                    )}
+                    {cert.expiryDate && (
+                      <span>• Expires: {cert.expiryDate}</span>
+                    )}
+                  </div>
+
+                  {cert.credentialId && (
+                    <p className="text-sm mb-2" style={{ color: 'var(--text-tertiary)' }}>
+                      ID: {cert.credentialId}
+                    </p>
+                  )}
+
+                  {cert.skills && cert.skills.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {cert.skills.map((skill, idx) => (
+                        <span
+                          key={idx}
+                          className="px-3 py-1 rounded-full text-xs font-medium"
+                          style={{ 
+                            backgroundColor: 'var(--apple-blue)',
+                            color: '#FFFFFF'
+                          }}
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  {cert.credentialUrl && (
+                    <motion.a
+                      href={cert.credentialUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 mt-2 text-sm font-medium"
+                      style={{ color: 'var(--apple-blue)' }}
+                      whileHover={{ x: 5 }}
+                    >
+                      View Certificate
+                      <ExternalLink className="w-4 h-4" />
+                    </motion.a>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </section>
+      )}
+
       {/* GitHub Contribution Calendar */}
       <section className="relative max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 overflow-hidden">
         {/* Parallax background */}
@@ -786,6 +919,7 @@ function App() {
         experiences={experiences}
         projects={projects}
         education={education}
+        certificates={certificates}
       />
     </div>
   );

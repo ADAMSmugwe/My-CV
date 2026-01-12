@@ -173,9 +173,13 @@ function App() {
           issuer,
           issueDate,
           expiryDate,
-          credentialId,
           credentialUrl,
-          skills
+          skills,
+          image{
+            asset->{
+              url
+            }
+          }
         }`);
         setCertificates(certificatesData);
 
@@ -587,10 +591,14 @@ function App() {
                     )}
                   </div>
 
-                  {cert.credentialId && (
-                    <p className="text-sm mb-2" style={{ color: 'var(--text-tertiary)' }}>
-                      ID: {cert.credentialId}
-                    </p>
+                  {cert.image?.asset?.url && (
+                    <div className="mb-4 rounded-xl overflow-hidden">
+                      <img 
+                        src={cert.image.asset.url} 
+                        alt={cert.title}
+                        className="w-full h-auto object-cover"
+                      />
+                    </div>
                   )}
 
                   {cert.skills && cert.skills.length > 0 && (

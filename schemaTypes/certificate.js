@@ -16,6 +16,15 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'image',
+      title: 'Certificate Image',
+      type: 'image',
+      description: 'Upload an image of your certificate',
+      options: {
+        hotspot: true,
+      },
+    },
+    {
       name: 'issueDate',
       title: 'Issue Date',
       type: 'string',
@@ -28,16 +37,10 @@ export default {
       description: 'Leave empty if it doesn\'t expire',
     },
     {
-      name: 'credentialId',
-      title: 'Credential ID',
-      type: 'string',
-      description: 'Certificate ID or credential number',
-    },
-    {
       name: 'credentialUrl',
       title: 'Credential URL',
       type: 'url',
-      description: 'Link to verify the certificate',
+      description: 'Optional: Link to verify the certificate',
     },
     {
       name: 'skills',
